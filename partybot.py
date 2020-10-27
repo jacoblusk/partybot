@@ -596,6 +596,10 @@ async def on_voice_state_update(
                 reason="PartyBot create member channel."
             )
 
+            if channel.category == None:
+                channel.delete("PartyBot invalid category.")
+                return
+
             await storage.set_channel_owner(channel.id, member.id)
             await member.move_to(channel, reason="PartyBot move user.")
 
