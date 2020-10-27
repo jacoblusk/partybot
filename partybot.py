@@ -587,15 +587,17 @@ async def on_voice_state_update(
                 await member.send("There are no more open categories, contact an administrator or moderator for more details.")
                 return
 
-        channel: discord.VoiceChannel = await category.create_voice_channel(
-            f"PartyBot Room",
-            bitrate=after.channel.bitrate,
-            user_limit=after.channel.user_limit,
-            reason="PartyBot create member channel."
-        )
+        if category != None:
+            channel: discord.VoiceChannel = await member.guild.create_voice_channel(
+                f"PartyBot Room",
+                category=category,
+                bitrate=after.channel.bitrate,
+                user_limit=after.channel.user_limit,
+                reason="PartyBot create member channel."
+            )
 
-        await storage.set_channel_owner(channel.id, member.id)
-        await member.move_to(channel, reason="PartyBot move user.")
+            await storage.set_channel_owner(channel.id, member.id)
+            await member.move_to(channel, reason="PartyBot move user.")
 
 if __name__ == "__main__":
     storage = Storage("partybot.db")
