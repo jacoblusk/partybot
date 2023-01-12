@@ -564,7 +564,8 @@ async def on_voice_state_update(
                await storage.get_channel_owner(before.channel.id) == member.id:
                 new_owner = random.choice(before.channel.members)
                 await storage.set_channel_owner(before.channel.id, new_owner.id)
-                await new_owner.send(f"The previous owner left, you're the captain now of {before.channel.name}.")
+                #await new_owner.send(f"The previous owner left, you're the captain now of {before.channel.name}.")
+                #Apparently DMing the user here is considered spam, so TODO: find a better way to do this, maybe a channel?
 
     if after.channel and after.channel.id == guild_settings.join_channel_id:
         category = await get_unfilled_category(member.guild, categories)
@@ -584,7 +585,7 @@ async def on_voice_state_update(
                 await storage.add_category(member.guild.id, category.id)
             else:
                 await member.move_to(None, reason="PartyBot no more open categories.")
-                await member.send("There are no more open categories, contact an administrator or moderator for more details.")
+                #await member.send("There are no more open categories, contact an administrator or moderator for more details.")
                 return
 
         if category != None:
